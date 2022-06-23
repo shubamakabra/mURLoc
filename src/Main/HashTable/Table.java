@@ -16,7 +16,7 @@ public class Table {
         private String[] vals;
 
         public Table(int s, int r){
-            this.maxSize = s;
+            this.maxSize = getNextSize(s);
             this.R = r;
 
             keys = new String[maxSize];
@@ -58,6 +58,15 @@ public class Table {
             size++;
         }
 
+        public String get(String key){
+            for (int i = hash(key); keys[i] != null; i = (i + 1) % maxSize){
+                if (keys[i].equals(key)){
+                    return vals[i];
+                }
+            }
+            return null;
+        }
+
         //Checks the list of primes for the lowest size that can include s elements and returns it.
         private int getNextSize(int s){
             for (int i = 0; primes[i] < s; i++) {
@@ -89,5 +98,9 @@ public class Table {
 
         public int getSize(){
             return size;
+        }
+
+        public int getR(){
+            return this.R;
         }
 }
