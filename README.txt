@@ -5,7 +5,7 @@ Because of lack of functionality, there are no functions for a user other than r
 
 After registrating, the user will be stored in a text document users.txt, and is therefore included even if the program is shut down.
 
-There are account-functionalities, but they are not completed. Some functionality is working, but not the complete thing..
+There are account-functionalities, but they are not completed. Some functionality is working, but not the complete thing...
 
 How to use:
     1. First start the program. If there are no users, it will enter user registration automatically.
