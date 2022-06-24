@@ -1,6 +1,6 @@
 package Tests;
 
-import Main.HashTable.Table;
+import Main.Unused.Table;
 
 public class MainTest {
 

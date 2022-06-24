@@ -7,52 +7,79 @@ import java.io.IOException;
 import java.util.*;
 
 public class Users {
-    private int size = 10000;
     private HashMap<String, User> users;
+    private int n;
 
     public Users(){
         users = new HashMap<String, User>();
-        //this.users = getUsers();
+        n = 0;
+        this.makeUserList();
     }
 
-    public void addUser(User u){
-        String hash = String.valueOf(u.hashCode());
-        System.out.println(hash);
-        users.put(hash, u);
+    public void putUser(String key, User u){
+        users.put(key, u);
+        n++;
+    }
+
+    public User getUser(String key){
+        return users.get(key);
+    }
+
+    public boolean contains(String key){
+        return users.containsKey(key);
+    }
+
+    public String getUglyURL(String key){
+        return this.getUser(key).getuURL();
+    }
+
+    public Set<String> getKeys(){
+        return users.keySet();
     }
 
     public void writeUsers() {
-        try {
-            System.out.println("Saving users to file!");
+        if (n > 0) {
+            try {
+                System.out.println("Saving users to file!");
 
-            FileWriter myWriter = new FileWriter("users.txt");
-            myWriter.write("[Key, {User name, Password hash, ugly URL, nice URL}]\n\n");
+                FileWriter myWriter = new FileWriter("users.txt");
+                //myWriter.write("[Key, {User name, Password hash, ugly URL, nice URL}]\n\n");
 
-            User user;
-            int n = 0;
-            for (String i : users.keySet()) {
-                user = users.get(i);
-                if (user != null) {
-                    n++;
-                    myWriter.write(user.makeString());
+                User user;
+                int m = 0;
+                for (String i : users.keySet()) {
+                    user = users.get(i);
+                    if (user != null) {
+                        m++;
+                        myWriter.write(user.makeString());
+                    }
                 }
+
+                myWriter.close();
+
+                if (m > 0) {
+
+                    System.out.println("Successfully wrote " + m + " users to the file.");
+                } else {
+                    System.out.println("No users written to file.");
+                }
+
+            } catch (IOException e) {
+                System.out.println("An error occurred when writing to file.");
+                e.printStackTrace();
             }
-
-            myWriter.close();
-            System.out.println("Successfully wrote " + n + " users to the file.");
-        } catch (IOException e) {
-            System.out.println("An error occurred when writing to file.");
-            e.printStackTrace();
+        } else{
+            System.out.println("No users to write to file!");
         }
-
-        getUsers();
     }
 
-    //read users from file. TODO
-    private void getUsers(){
+    //read users from file and makes a user list. This is to ensure that previously saved users are kept.
+    public void makeUserList(){
         System.out.println("Reading users from file.");
+
         //read from file.
         this.users = new HashMap<String, User>();
+        User u;
 
             try {
                 File myObj = new File("users.txt");
@@ -60,28 +87,59 @@ public class Users {
 
                 while (myReader.hasNextLine()) {
                     String data = myReader.nextLine();
-                    makeUserfromString(data);
-                }
+                    u = makeUserfromString(data);
+                    String key = String.valueOf(Math.abs(u.makeString().hashCode()));
+                    this.users.put(key, u);
+                    n++;
 
+                }
+                if (n == 0) {
+                    System.out.println("No users found!");
+                } else {
+                    System.out.println("Successfully read all users.");
+                }
                 myReader.close();
-                System.out.println("Successfully read all users.");
 
             } catch (FileNotFoundException e) {
                 System.out.println("An error occurred.");
                 e.printStackTrace();
             }
+            getKeys();
     }
 
-    private void makeUserfromString(String s){
-        List<String> items = Arrays.asList(s.split("\\s*,\\s*"));
+    private User makeUserfromString(String s){
+        String[] items = s.split("\\s*,\\s*");
+
         //remove all special symbols (namely "()" and "{}" ).
-        for (String k : items){
-            k.replaceAll("[{}()]","");
+        String[] res;
+        int l = 0;
+        for (int i = 0; i < items.length; i++){
+            items[i] = items[i].replaceAll("[}{]","");
         }
 
-        User user = new User(items.get(1), items.get(2), items.get(4));
+        User user = new User(items[0].strip(), items[1].strip(), items[2].strip());
         user.printUser();
+        return user;
+    }
 
+    public void printUsers(){
+        if (n < 0) {
+            System.out.println("Printing users!");
+            User user;
+            int n = 0;
 
+            for (String i : users.keySet()) {
+                user = users.get(i);
+                if (user != null) {
+                    n++;
+                    System.out.println(user.makeString());
+                }
+            }
+        }else {
+        }
+    }
+
+    public boolean empty(){
+        return (n == 0);
     }
 }

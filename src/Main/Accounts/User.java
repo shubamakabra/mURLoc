@@ -1,34 +1,29 @@
 package Main.Accounts;
 
-import Main.Main;
-import Main.Networking.URLholder;
-
+//This class is a singular user, containing his/her name, password hash and the ugly URL.
 public class User {
-    String key;
-
     String name;
     String passHash;
-    URLholder URLs;
+    String uURL;
 
     public User(String Name, String passhash, String ugly){
-        System.out.println("Creating user for " + Name + "!");
+        //System.out.println("Creating user for " + Name + "!");
 
-        String nice = String.valueOf(ugly.hashCode());
-
-        this.key = nice;
         this.name = Name;
         this.passHash = passhash;
-        this.URLs = new URLholder(ugly, nice);
+        this.uURL = ugly;
     }
 
-    // [Key, {Name, password hash, nice URL, ugly URL}]
+    // {Name, password hash, nice URL, ugly URL}
     public String makeString(){
-        return "(" + this.key + ", {" + this.name + ", " + this.passHash + ", " + this.URLs.getNice() + ", " + this.URLs.getUgly() + "} ) \n" ;
+        return "{" + this.name + "," + this.passHash + "," + this.uURL + "} \n" ;
     }
 
+    //A function to make the user entry into a postable String.
     public void printUser(){
         System.out.println(this.makeString());
     }
+
     public String getName(){
         return this.name;
     }
@@ -37,7 +32,7 @@ public class User {
         return this.passHash;
     }
 
-    public URLholder getURLs(){
-        return this.URLs;
+    public String getuURL(){
+        return this.uURL;
     }
 }

@@ -1,4 +1,4 @@
-package Main.HashTable;
+package Main.Unused;
 
 import static java.util.Objects.hash;
 

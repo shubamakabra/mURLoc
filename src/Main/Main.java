@@ -1,38 +1,30 @@
 package Main;
 
 import Main.Accounts.Registration;
-import Main.Accounts.User;
 import Main.Accounts.Users;
 import Main.Networking.Listener;
-import Main.Networking.URLholder;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 public class Main {
-
     public static void main(String[] args) throws IOException {
-        int runMode = 1;
+        int runMode = 0;
         Users users = new Users();
 
+        if (users.empty()){
+            runMode = 1;
+            System.out.println("No users found! Entering registration mode: ");
+        }
+        //Default mode where the program listens to incomming requests.
         if (runMode == 0){
-
-            HashMap<User, URLholder> map = new HashMap<User,URLholder>();
-            //HashTable ht = new HashTable(10000000);
-
-            Listener listener = new Listener(map);
+            Listener listener = new Listener(users);
             listener.tryListen();
 
+        //This mode is for devs to register users.
         } else if(runMode == 1){
+
             System.out.println("Entering User Registration: ");
             Registration.registrating(users);
-
-            //Here will be for registration of customers.
         }
-
-
     }
-
-
-
 }

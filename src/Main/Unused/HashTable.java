@@ -1,6 +1,4 @@
-package Main.HashTable;
-
-import java.sql.SQLOutput;
+package Main.Unused;
 
 public class HashTable {
     private int defaultSize = 10000007;
