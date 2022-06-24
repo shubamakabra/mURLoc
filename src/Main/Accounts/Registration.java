@@ -28,8 +28,8 @@ public class Registration {
             System.out.println("Please input ugly link. (The nice link will be computed automatically.)");
             String ugly = String.valueOf(reader.readLine());
 
-            User user = new User(name.strip(), passhash.strip(), ugly.strip());
-            String key = String.valueOf(Math.abs(user.makeString().hashCode()));
+            User user = new User(name.strip(), passhash.strip(), ugly.strip()); //Strip the strings, to make sure no spaces are accidentally included.
+            String key = String.valueOf(Math.abs(user.makeString().hashCode())); //This is the string of the absolute value of the hash from the user string.
 
             System.out.println("Your webpage can be reached at: http://localhost:8080/" + key);
             System.out.println("So please remember to save your personal mURL! ");

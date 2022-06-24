@@ -6,10 +6,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
+//This class incorporates Users into a HashMap.
 public class Users {
     private HashMap<String, User> users;
-    private int n;
+    private int n; //How many users are included in the HashMap
 
+    //Constructor sets up a new HashMap objects, and then gathers the users from a file by makeUserList();
     public Users(){
         users = new HashMap<String, User>();
         n = 0;
@@ -85,6 +87,7 @@ public class Users {
                 File myObj = new File("users.txt");
                 Scanner myReader = new Scanner(myObj);
 
+                //As long as there are lines to read, read.
                 while (myReader.hasNextLine()) {
                     String data = myReader.nextLine();
                     u = makeUserfromString(data);
@@ -107,6 +110,7 @@ public class Users {
             getKeys();
     }
 
+    //This is so that the program can take in the strings from the text file and autogenerate the list of users from the String.
     private User makeUserfromString(String s){
         String[] items = s.split("\\s*,\\s*");
 
@@ -137,6 +141,31 @@ public class Users {
             }
         }else {
         }
+    }
+
+    public boolean hasUser(String name){
+        boolean isTrue = false;
+         for (Map.Entry<String,User> s : users.entrySet()){
+             if(s.getValue().getName().equals(name)){
+                 System.out.println(s.getValue());
+                 isTrue = true;
+             }
+        }
+         return isTrue;
+    }
+
+    public boolean userHasPasshash(String name, String passhash){
+        boolean isTrue = false;
+        for (Map.Entry<String,User> s : users.entrySet()){
+            if(s.getValue().getPassHash().equals(passhash) && s.getValue().getName().equals(name)){
+                isTrue = true;
+            }
+        }
+        return isTrue;
+    }
+
+    public void remove(String key){
+        users.remove(key);
     }
 
     public boolean empty(){

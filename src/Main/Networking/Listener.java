@@ -7,12 +7,12 @@ import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.URI;
 
+//This class is a basic port-listener incorporating the HTTP- java package.
 public class Listener {
 
-    private static String hostname = "127.0.0.1";
-    private static int portnumber = 8080;
+    private static final int portnumber = 8080; //This can be freely changed here.
     private static Users users;
-
+    private static final String homePage = "https://google.com"; //can be freely changed here.
 
     public Listener(Users u){
         this.users = u;
@@ -47,6 +47,7 @@ public class Listener {
         System.out.println("Listening... ");
     }
 
+    //Handles any request regardless of correct link. Problem is it would be called no matter what. It is therefore commented out.
     private static void handleRequest(HttpExchange exchange) throws IOException {
         String response = "Welcome! Please register a mini-URL by emailing owner of http://localhost:8080/";
 
@@ -57,6 +58,7 @@ public class Listener {
         os.close();
     }
 
+    //Whenever the port-scanner detects a request, it is sent here. It is here determined if the link has an uglyLink counterpart in the DB.
     private static void redirectRequest(HttpExchange exchange) throws IOException {
         System.out.println("Redirect request recieved!");
 
@@ -74,13 +76,13 @@ public class Listener {
         }
 
         Headers responseHeaders = exchange.getResponseHeaders();
-
+        //if the link is not null or empty, try redirecting to the link.
         if (link != null && link != ""){
             System.out.println("Link found! Redirecting you to http://localhost:8080/" + link);
             responseHeaders.set("Location", "http://localhost:8080/" + link);
-        } else  {
+        } else  {//Else just throw them towards google.
             System.out.println("No mURLoc found!");
-            responseHeaders.set("Location", "https://google.com");
+            responseHeaders.set("Location", homePage);
         }
         exchange.sendResponseHeaders(302,0);
     }

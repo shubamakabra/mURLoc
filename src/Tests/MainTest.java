@@ -2,6 +2,7 @@ package Tests;
 
 import Main.Unused.Table;
 
+//I was too focused on the problems, that I did not manage to write tests.
 public class MainTest {
 
     public MainTest(){
